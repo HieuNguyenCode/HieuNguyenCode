@@ -2,32 +2,31 @@ name: Generate Snake
 
 on:
   schedule:
-    - cron: "0 */6 * * *"  # Chạy mỗi 6 tiếng
-  workflow_dispatch:
+    - cron: "0 */6 * * *" # Chạy tự động mỗi 6 tiếng
+  workflow_dispatch:      # Cho phép chạy thủ công
 
 jobs:
-  build:
+  generate:
+    permissions: 
+      contents: write # QUAN TRỌNG: Cấp quyền để GitHub Action có thể push file lên repo
     runs-on: ubuntu-latest
+    timeout-minutes: 5
 
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Generate snake
-        uses: Platane/snk@master
+      # Bước 1: Khởi tạo con rắn từ biểu đồ đóng góp của HieuNguyenCode
+      - name: Generate github-contribution-grid-snake
+        uses: Platane/snk@v3
         with:
-          github_user_name: HieuNguyenCode  # Thay thế bằng username thật của bạn
-          gif_out_path: dist/github-contribution-grid-snake.gif
-          svg_out_path: dist/github-contribution-grid-snake.svg
+          github_user_name: HieuNguyenCode
+          # Dùng 'outputs' thay cho các path cũ, tạo cả định dạng SVG và GIF
+          outputs: |
+            dist/github-contribution-grid-snake.svg
+            dist/github-contribution-grid-snake-dark.svg?palette=github-dark
+            dist/github-contribution-grid-snake.gif
 
-      - name: Commit & Push changes
-        uses: github-actions-x/commit@v2.9
-        with:
-          commit_message: "Update contribution graph"
-          branch: output
-          files: dist
-
-      - name: Deploy to GitHub Pages
-        uses: crazy-max/ghaction-github-pages@v3
+      # Bước 2: Đẩy các file vừa tạo sang một nhánh tên là 'output'
+      - name: Push to GitHub Pages
+        uses: crazy-max/ghaction-github-pages@v3.1.0
         with:
           target_branch: output
           build_dir: dist
