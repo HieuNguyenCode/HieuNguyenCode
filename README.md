@@ -22,4 +22,4 @@
 [![](https://visitcount.itsvg.in/api?id=HieuNguyenCode&icon=0&color=0)](https://visitcount.itsvg.in)
 
 ### Watch snake
-![snake gif](https://github.com/HieuNguyenCode/HieuNguyenCode/blob/output/github-contribution-grid-snake.svg)
+![snake gif](https://github.com/HieuNguyenCode/HieuNguyenCode/blob/output/github-contribution-grid-snake-dark.svg)
